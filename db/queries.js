@@ -1,0 +1,1 @@
+// functions for queries think about using a class
