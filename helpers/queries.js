@@ -24,8 +24,8 @@ class Database {
     };
     addNewRole(answer) {
         return this.connection.query(
-            //query
-            `INSERT INTO mafia_db.employee_role SET title = ?, salary = ?, department`
+            //query answer has to be an array before it's passed into here
+            `INSERT INTO mafia_db.employee_role SET title = ?, salary = ?, department = ?`, answer
         )
     };
     addNewEmployee(answer) {
