@@ -1,3 +1,3 @@
-USE employees_db;
+USE mafia_db;
 
-SELECT employee.first_name, employee.last_name FROM employee;
+INSERT mafia_db.department VALUES ("test");

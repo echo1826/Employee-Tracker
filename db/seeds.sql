@@ -1,3 +1,5 @@
+USE mafia_db;
+
 INSERT INTO department (name)
 VALUES  ("Security"),
         ("Distribution"),
