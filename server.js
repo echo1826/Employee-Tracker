@@ -17,9 +17,9 @@ const connection = mysql.createConnection({
         port: '3306',
         user: 'root',
         password: 'password',
-        database: 'employees_db'
+        database: 'mafia_db'
     },
-    console.log(`Connected to employees_db database.`)
+    console.log(`Connected to mafia_db database.`)
 );
 
 const answerHandler = async function (answer) {
@@ -63,6 +63,7 @@ const answerHandler = async function (answer) {
             break;
         }
         default: {
+            connection.end();
             return;
         }
     }

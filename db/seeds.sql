@@ -1,4 +1,4 @@
-INSERT INTO department (id, name)
+INSERT INTO department (name)
 VALUES  ("Security"),
         ("Distribution"),
         ("Administration"),
@@ -18,15 +18,39 @@ VALUES  ("Boss", 4500000, 3),
         ("Laundering Soldier", 500000, 4),
         ("Production Soldier", 500000, 5);
 
-INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES  ('Al', "Capone", 1, NULL),
-        ('Frank', "Nitti", 2, 1),
-        ("Antonio", "Lombardo", 3, 1),
-        ("James", "Indendino", 4, 2),
-        ("Peter", "DiFronzo", 5, 2),
-        ("Frank", "Caruso", 7, 2),
-        ("Albert", "Vena", 6, 2),
-        ("Michael", "Carisocia", 8, 4),
-        ("Robert", "Salerno", 9, 5),
-        ("Robert", "Bellavia", 10, 6),
-        ("Michael", "Giorango", 11, 7);
+INSERT INTO employee (first_name, last_name, role_id)
+VALUES  ('Al', "Capone", 1),
+        ('Frank', "Nitti", 2),
+        ("Antonio", "Lombardo", 3),
+        ("James", "Indendino", 4),
+        ("Peter", "DiFronzo", 5),
+        ("Frank", "Caruso", 7),
+        ("Albert", "Vena", 6),
+        ("Michael", "Carisocia", 8),
+        ("Robert", "Salerno", 9),
+        ("Robert", "Bellavia", 10),
+        ("Michael", "Giorango", 11);
+
+UPDATE employee
+SET manager_id = 1
+WHERE role_id IN (2, 3);
+
+UPDATE employee
+SET manager_id = 2
+WHERE role_id IN (4, 5, 6, 7);
+
+UPDATE employee
+SET manager_id = 4
+WHERE role_id IN (8);
+
+UPDATE employee
+SET manager_id = 5
+WHERE role_id IN (9);
+
+UPDATE employee
+SET manager_id = 6
+WHERE role_id IN (10);
+
+UPDATE employee
+SET manager_id = 7
+WHERE role_id IN (11);

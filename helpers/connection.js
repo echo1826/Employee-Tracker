@@ -5,9 +5,9 @@ const connection = mysql.createConnection({
         host: 'localhost',
         user: 'root',
         password: 'password',
-        database: 'employees_db'
+        database: 'mafia_db'
     },
-    console.log(`Connected to the employees_db database.`)
+    console.log(`Connected to the mafia_db database.`)
 );
 connection.query = util.promisify(connection.query);
 
