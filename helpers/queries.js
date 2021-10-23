@@ -7,16 +7,19 @@ class Database {
     viewAllRoles() {
         return this.connection.query(
             // query commands go in here
+            `SELECT * FROM employee_role;`
         )
     };
     viewAllEmployees() {
         return this.connection.query(
             //query
+            `SELECT * FROM employee;`
         )
     };
     viewAllDepartments() {
         return this.connection.query(
             //query
+            `SELECT * FROM department;`
         )
     };
     addNewRole() {

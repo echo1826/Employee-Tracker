@@ -7,7 +7,7 @@ const {
     viewEmployees,
     viewRoles,
     viewDepartments
-} = require('./assets/questions');
+} = require('./helpers/questions');
 // BONUS update employee, view employee by manager, view employee by department, delete department, role, employee
 // view total salaries of all employees in department
 // think about await and async for this initial inquirer
@@ -26,16 +26,19 @@ const answerHandler = async function (answer) {
     switch (answer.choice) {
         case "View all departments": {
             // TODO: add function call here from queries.js
+            await viewDepartments();
             await askQuestion();
             break;
         }
         case "View all roles": {
             // TODO: add function call here from queries.js
+            await viewRoles();
             await askQuestion();
             break;
         }
         case "View all employees": {
             // TODO: add function call here from queries.js
+            await viewEmployees();
             await askQuestion();
             break;
         }
@@ -66,7 +69,7 @@ const answerHandler = async function (answer) {
 }
 
 const askQuestion = async function () {
-    const choice = await inquire.prompt([{
+    await inquire.prompt([{
         type: "list",
         message: "What would you like to do?",
         choices: [

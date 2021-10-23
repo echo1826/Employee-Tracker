@@ -1,4 +1,4 @@
-const Database = require('../db/queries');
+const Database = require('./queries');
 const connection = require('../db/connection');
 // inquirer questions to import into server.js for the add role, and add employee
 
