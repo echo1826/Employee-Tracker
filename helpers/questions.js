@@ -7,12 +7,36 @@ async function addEmployee() {
     
 }
 
-async function addRole() {
+async function askEmployee() {
 
 }
 
-async function addDepartment() {
+async function addRole(answer) {
 
+}
+
+async function askRole() {
+
+}
+
+async function addDepartment(answer) {
+    const db = new Database(connection);
+    await db.addNewDepartment(answer);
+}
+
+async function askDepartment() {
+    await inquire.prompt(
+        [
+            {
+                type: 'input',
+                message: 'What is the name of the department you want to add?',
+                name: 'department'
+            }
+        ]
+    ).then((answer) => {
+        addDepartment(answer.department);
+        console.log("New department added");
+    })
 }
 
 async function viewEmployees() {
@@ -33,4 +57,4 @@ async function viewDepartments() {
     console.table(departments);
 }
 
-module.exports = {addEmployee, addRole, addDepartment, viewEmployees, viewRoles, viewDepartments};
+module.exports = {askEmployee, askRole, askDepartment, viewEmployees, viewRoles, viewDepartments};
