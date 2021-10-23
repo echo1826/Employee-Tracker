@@ -1,9 +1,9 @@
 const mysql = require('mysql2');
 const inquire = require('inquirer');
 const {
-    addEmployee,
-    addRole,
-    addDepartment,
+    askEmployee,
+    askRole,
+    askDepartment,
     viewEmployees,
     viewRoles,
     viewDepartments
@@ -44,16 +44,19 @@ const answerHandler = async function (answer) {
         }
         case "Add a department": {
             // TODO: add function call here from queries.js
+            await askDepartment();
             await askQuestion();
             break;
         }
         case "Add a role": {
             // TODO: add function call here from queries.js
+            await askRole();
             await askQuestion();
             break;
         }
         case "Add an employee": {
             // TODO: add function call here from queries.js
+            await askEmployee();
             await askQuestion();
             break;
         }
