@@ -22,19 +22,21 @@ class Database {
             `SELECT * FROM department;`
         )
     };
-    addNewRole() {
+    addNewRole(answer) {
         return this.connection.query(
             //query
+            `INSERT INTO mafia_db.employee_role SET title = ?, salary = ?, department`
         )
     };
-    addNewEmployee() {
+    addNewEmployee(answer) {
         return this.connection.query(
             //query
         )
     }
-    addNewDepartment() {
+    addNewDepartment(answer) {
         return this.connection.query(
             //query
+            `INSERT INTO mafia_db.department SET name = ?`, answer
         )
     }
 }
