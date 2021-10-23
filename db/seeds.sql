@@ -1,9 +1,9 @@
 INSERT INTO department (id, name)
-VALUES  (1, "Security"),
-        (2, "Distribution"),
-        (3, "Administration"),
-        (4, "Laundering"),
-        (5, "Production");
+VALUES  ("Security"),
+        ("Distribution"),
+        ("Administration"),
+        ("Laundering"),
+        ("Production");
     
 INSERT INTO employee_role (title, salary, department_id)
 VALUES  ("Boss", 4500000, 3),
