@@ -1,13 +1,7 @@
 const mysql = require('mysql2');
 const inquire = require('inquirer');
-const {
-    askEmployee,
-    askRole,
-    askDepartment,
-    viewEmployees,
-    viewRoles,
-    viewDepartments
-} = require('./helpers/questions');
+const {askEmployee, askRole, askDepartment, updateRole} = require('./helpers/questions');
+const {viewEmployees, viewRoles, viewDepartments} = require('./helpers/queries');
 // BONUS update employee, view employee by manager, view employee by department, delete department, role, employee
 // view total salaries of all employees in department
 // think about await and async for this initial inquirer
@@ -63,6 +57,7 @@ const answerHandler = async function (answer) {
         }
         case "Update an employee role": {
             // TODO: add function call here from queries.js (bonus)
+            await updateRole();
             await askQuestion();
             break;
         }

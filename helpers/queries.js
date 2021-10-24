@@ -1,58 +1,49 @@
-// functions for queries...think about using a class and exporting the class to wrap 
-// all the queries into one object and dot notation through them when needed
-class Database {
-    // connection represents the database connection for the query
-    constructor(connection) {
-        this.connection = connection;
-    }
-    // query to view all roles in database
-    viewAllRoles() {
-        return this.connection.query(
-            // query commands go in here
-            `SELECT * FROM employee_role;`
-        )
-    };
-    // query to view all employees in database
-    viewAllEmployees() {
-        return this.connection.query(
-            //query
-            `SELECT * FROM employee;`
-        )
-    };
-    // query to view all departments in database
-    viewAllDepartments() {
-        return this.connection.query(
-            //query
-            `SELECT * FROM department;`
-        )
-    };
-    // query to add new role to database
-    addNewRole(answer, department) {
-        // array to be accepted as argument in the query for the different variables for each column
-        const answerArr = [];
-        answerArr.push(answer.role, answer.salary, department);
-        return this.connection.query(
-            //query answer has to be an array before it's passed into here
-            `INSERT INTO mafia_db.employee_role SET title = ?, salary = ?, department_id = ?`, answerArr
-        )
-    };
-    // query to add new employee to database
-    addNewEmployee(answer, roleId, managerId) {
-        // array to be accepted as argument in the query for the different variables for each column
-        const answerArr = [];
-        answerArr.push(answer.firstName, answer.lastName, roleId, managerId);
-        return this.connection.query(
-            //query
-            `INSERT INTO mafia_db.employee SET first_name = ?, last_name = ?, role_id = ?, manager_id = ?`, answerArr
-        )
-    }
-    // query to add new department to 
-    addNewDepartment(answer) {
-        return this.connection.query(
-            //query
-            `INSERT INTO mafia_db.department SET name = ?`, answer
-        )
-    }
+const table = require('console.table');
+const connection = require('./connection');
+const Database = require('./database');
+
+// function to display all employees in database in a table
+async function viewEmployees() {
+    const db = new Database(connection);
+    const employees = await db.viewAllEmployees();
+    console.table(employees);
+}
+// function to display all roles in database in a table
+async function viewRoles() {
+    const db = new Database(connection);
+    const roles = await db.viewAllRoles();
+    console.table(roles);
+}
+// function to display all departments in database in a table
+async function viewDepartments() {
+    const db = new Database(connection);
+    const departments = await db.viewAllDepartments();
+    console.table(departments);
 }
 
-module.exports = Database;
+// function handles the adding of a new role in the database
+async function addRole(answer, departmentId) {
+    const db = new Database(connection);
+    await db.addNewRole(answer, departmentId);
+}
+
+// function handles the query to add employee given data from the user
+async function addEmployee(answer, roleId, managerId) {
+    const db = new Database(connection);
+    await db.addNewEmployee(answer, roleId, managerId);
+}
+
+// deals with adding a new department in the database
+async function addDepartment(answer) {
+    const db = new Database(connection);
+    await db.addNewDepartment(answer);
+}
+// updates an employee's role id in the database
+async function updateRoleQuery(roleId, employeeId) {
+    const db = new Database(connection);
+    let columnValues = [];
+    columnValues.push(roleId, employeeId)
+    await db.updateEmployeeRole(columnValues)
+}
+
+module.exports = {viewEmployees, viewRoles, viewDepartments, addRole, addEmployee, addDepartment, updateRoleQuery};

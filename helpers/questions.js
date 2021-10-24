@@ -1,14 +1,13 @@
-const Database = require('./queries');
+const Database = require('./database');
 const inquire = require('inquirer');
 const connection = require('./connection');
-const table = require('console.table');
+const {
+    addEmployee,
+    addDepartment,
+    addRole,
+    updateRoleQuery
+} = require('./queries')
 
-
-// function handles the query to add employee given data from the user
-async function addEmployee(answer, roleId, managerId) {
-    const db = new Database(connection);
-    await db.addNewEmployee(answer, roleId, managerId);
-}
 // questions to ask data to put into the database as a new employee
 async function askEmployee() {
     // gets the existing employees to display as answer choices in the questions
@@ -27,8 +26,7 @@ async function askEmployee() {
     roleNames.push(...roles.map(object => object.title));
     // console.log(employeeNames);
     await inquire.prompt(
-        [
-            {
+        [{
                 type: "input",
                 message: "What is the employee's first name?",
                 name: 'firstName'
@@ -56,17 +54,17 @@ async function askEmployee() {
         // sets managerId as NULL initially in case the user chooses no manager for the employee just made
         let managerId = 'NULL';
         // parses through the array to find out the id of given employee as a manager to be set into the database in the manager_id column
-        if(answer.manager !== 'None') {
-            for(let i = 0; i < employeeNames.length; i++) {
-                if(employeeNames[i] == answer.manager) {
+        if (answer.manager !== 'None') {
+            for (let i = 0; i < employeeNames.length; i++) {
+                if (employeeNames[i] == answer.manager) {
                     managerId = employeeNames.indexOf(employeeNames[i]) + 1;
                 }
             }
         }
         let roleId;
         // parses through roles array to get the roleId from the title of the role
-        for(let i = 0; i < roleNames.length; i++) {
-            if(roleNames[i] == answer.role) {
+        for (let i = 0; i < roleNames.length; i++) {
+            if (roleNames[i] == answer.role) {
                 roleId = roleNames.indexOf(roleNames[i]) + 1;
             }
         }
@@ -75,12 +73,8 @@ async function askEmployee() {
         console.log("Employee added.");
     })
 }
-// function handles the adding of a new role in the database
-async function addRole(answer, departmentId) {
-    const db = new Database(connection);
-    await db.addNewRole(answer, departmentId);
-}
 
+// function that deals with getting user input data to put into database
 async function askRole() {
     // gets the departments name and puts into an array to be used as an answer choice in the .prompt
     const db = new Database(connection);
@@ -89,8 +83,7 @@ async function askRole() {
     departmentName.push(...departments.map(object => object.name));
     console.log(departmentName);
     await inquire.prompt(
-        [
-            {
+        [{
                 type: 'input',
                 message: 'Title of the role?',
                 name: 'role'
@@ -109,8 +102,8 @@ async function askRole() {
         ]
     ).then((answer) => {
         // parses the department name back into it's original id to be stored in the database
-        for(let i = 0; i < departmentName.length; i++) {
-            if(departmentName[i] == answer.department) {
+        for (let i = 0; i < departmentName.length; i++) {
+            if (departmentName[i] == answer.department) {
                 let departmentId = departmentName.indexOf(departmentName[i]) + 1;
                 console.log(departmentId);
                 addRole(answer, departmentId);
@@ -119,43 +112,68 @@ async function askRole() {
         console.log("New role added.");
     })
 }
-// deals with adding a new department in the database
-async function addDepartment(answer) {
-    const db = new Database(connection);
-    await db.addNewDepartment(answer);
-}
-
+// gets user input data for department they want to add into database
 async function askDepartment() {
     await inquire.prompt(
-        [
-            {
-                type: 'input',
-                message: 'What is the name of the department you want to add?',
-                name: 'department'
-            }
-        ]
+        [{
+            type: 'input',
+            message: 'What is the name of the department you want to add?',
+            name: 'department'
+        }]
     ).then((answer) => {
         addDepartment(answer.department);
         console.log("New department added");
     })
 }
-// function to display all employees in database in a table
-async function viewEmployees() {
+// gets user data to update an employees role in the database
+async function updateRole() {
     const db = new Database(connection);
     const employees = await db.viewAllEmployees();
-    console.table(employees);
-}
-// function to display all roles in database in a table
-async function viewRoles() {
-    const db = new Database(connection);
+    const employeeName = [];
+    // parsing the data to display the employee name as a choice in the questions
+    employeeName.push(...employees.map(object => {
+        let firstName = object.first_name;
+        let lastName = object.last_name;
+        return firstName + " " + lastName;
+    }))
+    // parsing the data to display the job titles as a choice in the questions
     const roles = await db.viewAllRoles();
-    console.table(roles);
-}
-// function to display all departments in database in a table
-async function viewDepartments() {
-    const db = new Database(connection);
-    const departments = await db.viewAllDepartments();
-    console.table(departments);
+    const roleName = [];
+    roleName.push(...roles.map(object => object.title));
+
+    await inquire.prompt([{
+        type: 'list',
+        message: "Which employee's role do you want to update?",
+        choices: employeeName,
+        name: 'employee'
+    }, {
+        type: 'list',
+        message: "Which role are they switching to?",
+        choices: roleName,
+        name: "role"
+    }]).then((answer) => {
+        // console.log(answer);
+        // reparse the employee name and role name back to id format to be stored into database
+        let employeeId;
+        for (let i = 0; i < employeeName.length; i++) {
+            if (employeeName[i] == answer.employee) {
+                employeeId = employeeName.indexOf(employeeName[i]) + 1;
+            }
+        }
+        let roleId;
+        for (let i = 0; i < roleName.length; i++) {
+            if (roleName[i] == answer.role) {
+                roleId = roleName.indexOf(roleName[i]) + 1;
+            }
+        }
+        updateRoleQuery(roleId, employeeId);
+        console.log("Employee's role has been updated.");
+    })
 }
 
-module.exports = {askEmployee, askRole, askDepartment, viewEmployees, viewRoles, viewDepartments};
+module.exports = {
+    askEmployee,
+    askRole,
+    askDepartment,
+    updateRole
+};
