@@ -12,6 +12,7 @@ const {
 // view total salaries of all employees in department
 // think about await and async for this initial inquirer
 
+// connect to mafia_db
 const connection = mysql.createConnection({
         host: 'localhost',
         port: '3306',
@@ -21,7 +22,7 @@ const connection = mysql.createConnection({
     },
     console.log(`Connected to mafia_db database.`)
 );
-
+// function to handle the answer given in the first inquire.prompt to decide what functions to call
 const answerHandler = async function (answer) {
     switch (answer.choice) {
         case "View all departments": {
@@ -67,11 +68,11 @@ const answerHandler = async function (answer) {
         }
         default: {
             connection.end();
-            return;
+            process.exit();
         }
     }
 }
-
+// asks the user to decide what to do then calls the answerHandler function to get functionality
 const askQuestion = async function () {
     await inquire.prompt([{
         type: "list",
