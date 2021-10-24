@@ -1,6 +1,7 @@
 const Database = require('./queries');
 const inquire = require('inquirer');
 const connection = require('./connection');
+const table = require('console.table');
 // inquirer questions to import into server.js for the add role, and add employee
 
 async function addEmployee(answer) {
