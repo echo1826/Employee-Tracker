@@ -3,7 +3,7 @@ const inquire = require('inquirer');
 const connection = require('./connection');
 // inquirer questions to import into server.js for the add role, and add employee
 
-async function addEmployee() {
+async function addEmployee(answer) {
     
 }
 
@@ -11,12 +11,46 @@ async function askEmployee() {
 
 }
 
-async function addRole(answer) {
-
+async function addRole(answer, departmentId) {
+    const db = new Database(connection);
+    await db.addNewRole(answer, departmentId);
 }
 
 async function askRole() {
-
+    const db = new Database(connection);
+    const departments = await db.viewAllDepartments();
+    const departmentName = [];
+    departmentName.push(...departments.map(object => object.name));
+    console.log(departmentName);
+    await inquire.prompt(
+        [
+            {
+                type: 'input',
+                message: 'Title of the role?',
+                name: 'role'
+            },
+            {
+                type: 'input',
+                message: 'What is the salary for this role?',
+                name: 'salary'
+            },
+            {
+                type: 'list',
+                message: 'What department should this role be in?',
+                choices: departmentName,
+                name: 'department'
+            }
+        ]
+    ).then((answer) => {
+        for(let i = 0; i < departmentName.length; i++) {
+            if(departmentName[i] == answer.department) {
+                let departmentId = departmentName.indexOf(departmentName[i]) + 1;
+                console.log(departmentId);
+                addRole(answer, departmentId);
+            }
+        }
+        console.log("New role added.");
+    })
 }
 
 async function addDepartment(answer) {

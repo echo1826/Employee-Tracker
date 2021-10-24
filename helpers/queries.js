@@ -22,10 +22,12 @@ class Database {
             `SELECT * FROM department;`
         )
     };
-    addNewRole(answer) {
+    addNewRole(answer, department) {
+        const answerArr = [];
+        answerArr.push(answer.role, answer.salary, department);
         return this.connection.query(
             //query answer has to be an array before it's passed into here
-            `INSERT INTO mafia_db.employee_role SET title = ?, salary = ?, department = ?`, answer
+            `INSERT INTO mafia_db.employee_role SET title = ?, salary = ?, department_id = ?`, answerArr
         )
     };
     addNewEmployee(answer) {
