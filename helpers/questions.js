@@ -49,7 +49,22 @@ async function askEmployee() {
         ]
     ).then((answer) => {
         // TODO: reparse the role names and the manager name back to id's to be stored into db
-        console.log("Finished with employee add")
+        let managerId = 'NULL';
+        if(answer.manager !== 'None') {
+            for(let i = 0; i < employeeNames.length; i++) {
+                if(employeeNames[i] == answer.manager) {
+                    managerId = employeeNames.indexOf(employeeNames[i]) + 1;
+                }
+            }
+        }
+        let roleId;
+        for(let i = 0; i < roleNames.length; i++) {
+            if(roleNames[i] == answer.role) {
+                roleId = roleNames.indexOf(roleNames[i]) + 1;
+            }
+        }
+        addEmployee(answer, roleId, managerId);
+        console.log("Employee added.")
     })
 }
 

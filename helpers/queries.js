@@ -32,8 +32,11 @@ class Database {
     };
     addNewEmployee(answer, roleId, managerId) {
         // TODO: push the different answers, roleId, managerId into an array for the query
+        const answerArr = [];
+        answerArr.push(answer.firstName, answer.lastName, roleId, managerId);
         return this.connection.query(
             //query
+            `INSERT INTO mafia_db.employee SET first_name = ?, last_name = ?, role_id = ?, manager_id = ?`, answerArr
         )
     }
     addNewDepartment(answer) {
