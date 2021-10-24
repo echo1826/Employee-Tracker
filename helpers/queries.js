@@ -30,7 +30,8 @@ class Database {
             `INSERT INTO mafia_db.employee_role SET title = ?, salary = ?, department_id = ?`, answerArr
         )
     };
-    addNewEmployee(answer) {
+    addNewEmployee(answer, roleId, managerId) {
+        // TODO: push the different answers, roleId, managerId into an array for the query
         return this.connection.query(
             //query
         )
