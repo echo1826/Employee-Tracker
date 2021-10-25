@@ -1,6 +1,6 @@
 const mysql = require('mysql2');
 const inquire = require('inquirer');
-const {askEmployee, askRole, askDepartment, updateRole} = require('./helpers/questions');
+const {askEmployee, askRole, askDepartment, updateRole, updateManager} = require('./helpers/questions');
 const {viewEmployees, viewRoles, viewDepartments} = require('./helpers/queries');
 // BONUS update employee, view employee by manager, view employee by department, delete department, role, employee
 // view total salaries of all employees in department
@@ -61,6 +61,11 @@ const answerHandler = async function (answer) {
             await askQuestion();
             break;
         }
+        case "Update an employee's manager": {
+            await updateManager();
+            await askQuestion();
+            break;
+        }
         default: {
             connection.end();
             process.exit();
@@ -80,6 +85,7 @@ const askQuestion = async function () {
             "Add a role",
             "Add an employee",
             "Update an employee role",
+            "Update an employee's manager",
             "Quit"
         ],
         name: "choice"

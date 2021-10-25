@@ -5,7 +5,8 @@ const {
     addEmployee,
     addDepartment,
     addRole,
-    updateRoleQuery
+    updateRoleQuery,
+    updateManagerQuery
 } = require('./queries')
 
 // questions to ask data to put into the database as a new employee
@@ -152,7 +153,6 @@ async function updateRole() {
         choices: roleName,
         name: "role"
     }]).then((answer) => {
-        // console.log(answer);
         // reparse the employee name and role name back to id format to be stored into database
         let employeeId;
         for (let i = 0; i < employeeName.length; i++) {
@@ -171,9 +171,51 @@ async function updateRole() {
     })
 }
 
+async function updateManager() {
+    const db = new Database(connection);
+    const employees = await db.getEmployeeManager();
+    const employee = [];
+    employee.push(...employees.map((object) => {
+        return object.first_name + " " + object.last_name;
+    }))
+    const managers = await db.viewAllEmployees();
+    const manager = [];
+    manager.push(...managers.map((object) => {
+        return object.first_name + " " + object.last_name;
+    }))
+    await inquire.prompt(
+        [{
+                type: "list",
+                message: "Which employee do you want to change their manager?",
+                choices: employee,
+                name: "employee"
+            },
+            {
+                type: "list",
+                message: "Which manager should this employee report to?",
+                choices: manager,
+                name: "manager"
+            }
+        ]
+    ).then((answer) => {
+        let managerId;
+        for(let i = 0; i < manager.length; i++) {
+            if(manager[i] == answer.manager) {
+                managerId = manager.indexOf(manager[i]) + 1;
+            }
+        }
+        const answerArr = [];
+        const nameArr = answer.employee.split(" ");
+        answerArr.push(managerId, ...nameArr);
+        updateManagerQuery(answerArr);
+        console.log(answerArr);
+    })
+}
+
 module.exports = {
     askEmployee,
     askRole,
     askDepartment,
-    updateRole
+    updateRole,
+    updateManager
 };

@@ -46,4 +46,9 @@ async function updateRoleQuery(roleId, employeeId) {
     await db.updateEmployeeRole(columnValues)
 }
 
-module.exports = {viewEmployees, viewRoles, viewDepartments, addRole, addEmployee, addDepartment, updateRoleQuery};
+async function updateManagerQuery(answerArr) {
+    const db = new Database(connection);
+    await db.updateEmployeeManager(answerArr);
+}
+
+module.exports = {viewEmployees, viewRoles, viewDepartments, addRole, addEmployee, addDepartment, updateRoleQuery, updateManagerQuery};
