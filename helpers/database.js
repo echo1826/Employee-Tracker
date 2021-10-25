@@ -24,7 +24,7 @@ class Database {
     viewAllDepartments() {
         return this.connection.query(
             //query
-            `SELECT * FROM department;`
+            `SELECT * FROM mafia_db.department;`
         )
     }
     // query to add new role to database

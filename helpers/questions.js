@@ -7,7 +7,7 @@ const {
     addRole,
     updateRoleQuery,
     updateManagerQuery
-} = require('./queries')
+} = require('./queries');
 
 // questions to ask data to put into the database as a new employee
 async function askEmployee() {
@@ -25,7 +25,6 @@ async function askEmployee() {
         return firstName + " " + lastName;
     }), "None");
     roleNames.push(...roles.map(object => object.title));
-    // console.log(employeeNames);
     await inquire.prompt(
         [{
                 type: "input",
