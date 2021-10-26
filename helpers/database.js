@@ -17,7 +17,7 @@ class Database {
     viewAllEmployees() {
         return this.connection.query(
             //query
-            `SELECT employee.id, first_name, last_name, title, salary, name AS department_name FROM employee JOIN employee_role ON employee.id = employee_role.id JOIN department WHERE department_id = department.id ORDER BY employee.id;`
+            `SELECT employee.id, employee.first_name, employee.last_name, e.first_name as manager_first_name, e.last_name AS manager_last_name, title, salary, department.name AS department_name FROM employee JOIN employee_role ON employee.id = employee_role.id JOIN employee e ON e.id = employee.manager_id JOIN department WHERE department_id = department.id ORDER BY employee.id;`
         )
     }
     // query to view all departments in database
