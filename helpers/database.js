@@ -10,14 +10,14 @@ class Database {
     viewAllRoles() {
         return this.connection.query(
             // query commands go in here
-            `SELECT * FROM employee_role;`
+            `SELECT employee_role.id, title, salary, name AS department_name FROM mafia_db.employee_role JOIN department ON department.id = employee_role.department_id;`
         )
     }
     // query to view all employees in database
     viewAllEmployees() {
         return this.connection.query(
             //query
-            `SELECT * FROM employee;`
+            `SELECT employee.id, first_name, last_name, title, salary FROM employee JOIN employee_role ON employee.id = employee_role.id JOIN department ON department.id = (employee_role.id = employee.id);`
         )
     }
     // query to view all departments in database

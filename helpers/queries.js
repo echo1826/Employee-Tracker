@@ -42,8 +42,8 @@ async function addDepartment(answer) {
 async function updateRoleQuery(roleId, employeeId) {
     const db = new Database(connection);
     let columnValues = [];
-    columnValues.push(roleId, employeeId)
-    await db.updateEmployeeRole(columnValues)
+    columnValues.push(roleId, employeeId);
+    await db.updateEmployeeRole(columnValues);
 }
 
 async function updateManagerQuery(answerArr) {

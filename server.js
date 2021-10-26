@@ -22,48 +22,48 @@ const answerHandler = async function (answer) {
         case "View all departments": {
             // TODO: add function call here from queries.js
             await viewDepartments();
-            await askQuestion();
+            askQuestion();
             break;
         }
         case "View all roles": {
             // TODO: add function call here from queries.js
             await viewRoles();
-            await askQuestion();
+            askQuestion();
             break;
         }
         case "View all employees": {
             // TODO: add function call here from queries.js
             await viewEmployees();
-            await askQuestion();
+            askQuestion();
             break;
         }
         case "Add a department": {
             // TODO: add function call here from queries.js
             await askDepartment();
-            await askQuestion();
+            askQuestion();
             break;
         }
         case "Add a role": {
             // TODO: add function call here from queries.js
             await askRole();
-            await askQuestion();
+            askQuestion();
             break;
         }
         case "Add an employee": {
             // TODO: add function call here from queries.js
             await askEmployee();
-            await askQuestion();
+            askQuestion();
             break;
         }
         case "Update an employee role": {
             // TODO: add function call here from queries.js (bonus)
             await updateRole();
-            await askQuestion();
+            askQuestion();
             break;
         }
         case "Update an employee's manager": {
             await updateManager();
-            await askQuestion();
+            askQuestion();
             break;
         }
         default: {
@@ -73,8 +73,8 @@ const answerHandler = async function (answer) {
     }
 }
 // asks the user to decide what to do then calls the answerHandler function to get functionality
-const askQuestion = async function () {
-    await inquire.prompt([{
+const askQuestion = function () {
+    inquire.prompt([{
         type: "list",
         message: "What would you like to do?",
         choices: [
