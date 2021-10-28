@@ -9,6 +9,7 @@ const connection = mysql.createConnection({
     },
     console.log(`Connected to the mafia_db database.`)
 );
+
 connection.query = util.promisify(connection.query);
 
 module.exports = connection;

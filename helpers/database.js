@@ -10,21 +10,26 @@ class Database {
     viewAllRoles() {
         return this.connection.query(
             // query commands go in here
-            `SELECT employee_role.id, title, salary, name AS department_name FROM mafia_db.employee_role JOIN department ON department.id = employee_role.department_id;`
+            `SELECT employee_role.id, title, salary, name AS department_name FROM mafia_db.employee_role JOIN department ON department.id = employee_role.department_id ORDER BY employee_role.id;`
         )
     }
     // query to view all employees in database
     viewAllEmployees() {
         return this.connection.query(
-            //query
-            `SELECT employee.id, employee.first_name, employee.last_name, e.first_name as manager_first_name, e.last_name AS manager_last_name, title, salary, department.name AS department_name FROM employee JOIN employee_role ON employee.id = employee_role.id JOIN employee e ON e.id = employee.manager_id JOIN department WHERE department_id = department.id ORDER BY employee.id;`
+            // query
+            `SELECT employee.id, employee.first_name, employee.last_name, e.first_name as manager_first_name, e.last_name AS manager_last_name, title, salary, department.name AS department_name FROM employee JOIN employee_role ON employee.role_id = employee_role.id JOIN employee e ON e.id = employee.manager_id JOIN department ON employee_role.department_id = department.id ORDER BY employee.id;`
         )
     }
     // query to view all departments in database
     viewAllDepartments() {
         return this.connection.query(
-            //query
-            `SELECT * FROM mafia_db.department;`
+            // query
+            `SELECT * FROM mafia_db.department ORDER BY department.id;`
+        )
+    }
+    viewByDepartment(departmentId) {
+        return this.connection.query(
+            `SELECT employee.first_name, employee.last_name, employee_role.title, department.name FROM employee_role JOIN employee ON employee.role_id = employee_role.id JOIN department ON employee_role.department_id = department.id WHERE department_id = ?;`, departmentId
         )
     }
     // query to add new role to database

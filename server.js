@@ -1,6 +1,6 @@
 const mysql = require('mysql2');
 const inquire = require('inquirer');
-const {askEmployee, askRole, askDepartment, updateRole, updateManager} = require('./helpers/questions');
+const {askEmployee, askRole, askDepartment, updateRole, updateManager, viewByDepartment} = require('./helpers/questions');
 const {viewEmployees, viewRoles, viewDepartments} = require('./helpers/queries');
 // BONUS update employee, view employee by manager, view employee by department, delete department, role, employee
 // view total salaries of all employees in department
@@ -16,24 +16,45 @@ const connection = mysql.createConnection({
     },
     console.log(`Connected to mafia_db database.`)
 );
-// function to handle the answer given in the first inquire.prompt to decide what functions to call
-const answerHandler = async function (answer) {
+
+// asks the user to decide what to do then calls the answerHandler function to get functionality
+const askQuestion = async function () {
+    const answer = await inquire.prompt([{
+        type: "list",
+        message: "What would you like to do?",
+        choices: [
+            "View all departments",
+            "View all roles",
+            "View all employees",
+            "View employees by department",
+            "Add a department",
+            "Add a role",
+            "Add an employee",
+            "Update an employee role",
+            "Update an employee's manager",
+            "Quit"
+        ],
+        name: "choice"
+    }])
     switch (answer.choice) {
         case "View all departments": {
             // TODO: add function call here from queries.js
-            await viewDepartments();
+            const departments = await viewDepartments();
+            console.table(departments);
             askQuestion();
             break;
         }
         case "View all roles": {
             // TODO: add function call here from queries.js
-            await viewRoles();
+            const roles = await viewRoles();
+            console.table(roles);
             askQuestion();
             break;
         }
         case "View all employees": {
             // TODO: add function call here from queries.js
-            await viewEmployees();
+            const employees = await viewEmployees();
+            console.table(employees);
             askQuestion();
             break;
         }
@@ -66,31 +87,17 @@ const answerHandler = async function (answer) {
             askQuestion();
             break;
         }
+        case "View employees by department": {
+            const employees = await viewByDepartment();
+            console.table(employees);
+            askQuestion();
+            break;
+        }
         default: {
             connection.end();
             process.exit();
         }
     }
-}
-// asks the user to decide what to do then calls the answerHandler function to get functionality
-const askQuestion = function () {
-    inquire.prompt([{
-        type: "list",
-        message: "What would you like to do?",
-        choices: [
-            "View all departments",
-            "View all roles",
-            "View all employees",
-            "Add a department",
-            "Add a role",
-            "Add an employee",
-            "Update an employee role",
-            "Update an employee's manager",
-            "Quit"
-        ],
-        name: "choice"
-    }]).then((answer) => {
-        answerHandler(answer);
-    });
+
 }
 askQuestion();

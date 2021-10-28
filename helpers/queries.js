@@ -6,19 +6,20 @@ const Database = require('./database');
 async function viewEmployees() {
     const db = new Database(connection);
     const employees = await db.viewAllEmployees();
-    console.table(employees);
+    return employees;
+    
 }
 // function to display all roles in database in a table
 async function viewRoles() {
     const db = new Database(connection);
     const roles = await db.viewAllRoles();
-    console.table(roles);
+    return roles;
 }
 // function to display all departments in database in a table
 async function viewDepartments() {
     const db = new Database(connection);
     const departments = await db.viewAllDepartments();
-    console.table(departments);
+    return departments;
 }
 
 // function handles the adding of a new role in the database
@@ -51,4 +52,10 @@ async function updateManagerQuery(answerArr) {
     await db.updateEmployeeManager(answerArr);
 }
 
-module.exports = {viewEmployees, viewRoles, viewDepartments, addRole, addEmployee, addDepartment, updateRoleQuery, updateManagerQuery};
+async function viewEmployeeByDepartment(answer) {
+    const db = new Database(connection);
+    const data = await db.viewByDepartment(answer);
+    return data;
+}
+
+module.exports = {viewEmployees, viewRoles, viewDepartments, addRole, addEmployee, addDepartment, updateRoleQuery, updateManagerQuery, viewEmployeeByDepartment};
