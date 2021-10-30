@@ -31,6 +31,10 @@ inquirer installation: <br>
 ```shell
 npm i inquirer
 ```
+express.js installation: <br>
+```shell
+npm i express
+```
 
 # License
 
