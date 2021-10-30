@@ -57,6 +57,7 @@ node js: <https://nodejs.org/en/> <br>
 console.table: <https://www.npmjs.com/package/console.table> <br>
 inquirer: <https://www.npmjs.com/package/inquirer> <br>
 express.js: <https://expressjs.com/en/starter/installing.html> <br>
+mysql2: <https://www.npmjs.com/package/mysql2> <br>
 javascript
 
 # Questions
