@@ -15,7 +15,7 @@
 
 # Description
 
-This is a mafia employee tracker that stores data in a mysql database and involves the use of inquirer to get data from the user to add more data to the database. It is a CLI application so there is no deployed site or local url
+This is a mafia employee tracker that stores data in a mysql database and involves the use of inquirer to get data from the user to add more data to the database. It is a CLI application so there is no deployed site or local url. This application is a node application with an express server implemented to query a SQL database using mysql2 package.
 
 # Installation
 
@@ -56,6 +56,7 @@ Feel free to pull request or open an issue
 node js: <https://nodejs.org/en/> <br>
 console.table: <https://www.npmjs.com/package/console.table> <br>
 inquirer: <https://www.npmjs.com/package/inquirer> <br>
+express.js: <https://expressjs.com/en/starter/installing.html> <br>
 javascript
 
 # Questions
