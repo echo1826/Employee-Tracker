@@ -15,7 +15,7 @@
 
 # Description
 
-This is a mafia employee tracker that stores data in a mysql database and involves the use of inquirer to get data from the user to add more data to the database.
+This is a mafia employee tracker that stores data in a mysql database and involves the use of inquirer to get data from the user to add more data to the database. It is a CLI application so there is no deployed site or local url
 
 # Installation
 
